@@ -45,7 +45,6 @@ class UserManager(BaseUserManager):
         return self._create_user(username, email, password, **extra_fields)
 
 
-
 class User(AbstractBaseUser, PermissionsMixin):
     CUSTOMER = 'CU'
     USER_TYPE = [
@@ -64,8 +63,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     type          = models.CharField(max_length=255, choices=USER_TYPE, default=CUSTOMER)
     username      = models.CharField(max_length=255, blank=True, unique=True)
 
-    is_staff = models.BooleanField(default=False)
-    is_active = models.BooleanField(default=True)
+    is_staff      = models.BooleanField(default=False)
+    is_active     = models.BooleanField(default=True)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['first_name', 'last_name', 'phone', 'username']
