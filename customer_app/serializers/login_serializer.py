@@ -11,6 +11,7 @@ class LoginSerializer(serializers.Serializer):
     id       = serializers.IntegerField(read_only=True)
     type     = serializers.CharField(read_only=True)
 
+
     def validate(self, data):
         email    = data.get('email', None)
         password = data.get('password', None)
@@ -29,7 +30,7 @@ class LoginSerializer(serializers.Serializer):
 
         if user is None:
             raise serializers.ValidationError(
-                'A user with this email and password was not found.'
+                'A user with this email and nwefjknpassword was not found.'
             )
 
         if not user.is_active:

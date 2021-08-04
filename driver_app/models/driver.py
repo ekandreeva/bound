@@ -1,5 +1,5 @@
 from django.db import models
-from .user import User
+from bound_api.models import User
 
 
 class Driver(models.Model):

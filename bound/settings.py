@@ -34,6 +34,7 @@ AUTH_USER_MODEL = 'bound_api.user'
 INSTALLED_APPS = [
     'bound_api.apps.BoundApiConfig',
     'customer_app.apps.CustomerAppConfig',
+    'driver_app.apps.DriverAppConfig',
     'rest_framework',
     'rest_framework.authtoken',
     'django.contrib.admin',

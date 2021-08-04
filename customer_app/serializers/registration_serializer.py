@@ -1,5 +1,7 @@
 from rest_framework import serializers
 from bound_api.models import User
+from customer_app.models import Customer
+
 
 class RegistrationSerializer(serializers.ModelSerializer):
     password = serializers.CharField(max_length=255, min_length=6, write_only=True)
@@ -10,8 +12,11 @@ class RegistrationSerializer(serializers.ModelSerializer):
         fields = ('email', 'username', 'password', 'token',)
 
     def create(self, validated_data):
-        user = User.objects.create_superuser(**validated_data)
-        user.type = 'AD'
+        user = User.objects.create_user(**validated_data)
+        user.type = 'CU'
         user.save()
+
+        customer = Customer(user=user)
+        customer.save()
 
         return user

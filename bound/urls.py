@@ -20,4 +20,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('bound_api.urls', namespace='api')),
     path('customer_app/', include('customer_app.urls', namespace='customer_app')),
+    path('driver_app/', include('driver_app.urls', namespace='driver_app')),
 ]

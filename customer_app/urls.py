@@ -1,8 +1,8 @@
 from django.urls import re_path, include, path
 from bound_api.router import router
 
-from bound_api.views import RegistrationAPIView
-from bound_api.views import LoginAPIView
+from customer_app.views import RegistrationAPIView
+from customer_app.views import LoginAPIView
 
 app_name = 'customer_app'
 urlpatterns = [
