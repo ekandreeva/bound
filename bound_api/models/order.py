@@ -1,4 +1,5 @@
 from django.db import models
+from .user import User
 
 
 class Order(models.Model):
@@ -17,3 +18,7 @@ class Order(models.Model):
     type             = models.CharField(max_length=255, blank=True, null=True)
     from_whow_id     = models.IntegerField(blank=True, null=True)
     for_whow_id      = models.IntegerField(blank=True, null=True)
+    user             = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
+
+    def __str__(self):
+        return str(self.id)
