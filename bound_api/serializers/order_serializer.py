@@ -22,5 +22,7 @@ class OrderSerializer(serializers.ModelSerializer):
             'note',
             'type',
             'from_address',
-            'to_address'
+            'to_address',
+            'from_whom',
+            'for_whom'
         )
