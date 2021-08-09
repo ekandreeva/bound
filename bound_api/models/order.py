@@ -1,9 +1,10 @@
 from django.db import models
 from .user import User
+from .address import Address
 
 
 class Order(models.Model):
-    # start_date_time	 = models.DateTimeField(blank=True)
+    start_date_time	 = models.DateTimeField(blank=True, null=True)
     number_of_items  = models.PositiveIntegerField(default=0)
     sender           = models.CharField(max_length=255)
     recipient        = models.CharField(max_length=255)
@@ -19,6 +20,8 @@ class Order(models.Model):
     from_whow_id     = models.IntegerField(blank=True, null=True)
     for_whow_id      = models.IntegerField(blank=True, null=True)
     user             = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
+    from_address     = models.ForeignKey(Address, on_delete=models.CASCADE, blank=True, null=True, related_name='from_address_order')
+    to_address       = models.ForeignKey(Address, on_delete=models.CASCADE, blank=True, null=True, related_name='to_address_order')
 
     def __str__(self):
         return str(self.id)
