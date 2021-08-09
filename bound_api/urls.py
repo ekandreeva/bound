@@ -21,7 +21,7 @@ from bound_api.views import LoginAPIView
 
 app_name = 'bound_api'
 urlpatterns = [
-    path('', include(router.urls)),
+    # path('', include(router.urls)),
     re_path(r'^sign_up/?$', RegistrationAPIView.as_view(), name='user_sign_up'),
     re_path(r'^login/?$', LoginAPIView.as_view(), name='user_login'),
 ]
