@@ -1,2 +1,4 @@
 from .registration_serializer import RegistrationSerializer
 from .login_serializer import LoginSerializer
+from .driver_serializer import DriverSerializer
+from .vehicle_serializer import VehicleSerializer
