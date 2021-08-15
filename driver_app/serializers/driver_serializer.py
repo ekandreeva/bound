@@ -5,4 +5,9 @@ from driver_app.models import Driver
 class DriverSerializer(serializers.ModelSerializer):
     class Meta:
         model = Driver
-        fields = ['status', 'user', 'vehicles']
+        fields = [
+            'status',
+            'user',
+            'vehicles',
+            'orders'
+        ]

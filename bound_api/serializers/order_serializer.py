@@ -24,5 +24,6 @@ class OrderSerializer(serializers.ModelSerializer):
             'from_address',
             'to_address',
             'from_whom',
-            'for_whom'
+            'for_whom',
+            'drivers'
         )
