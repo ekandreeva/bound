@@ -6,7 +6,7 @@ from django.contrib.auth import authenticate
 class LoginSerializer(serializers.Serializer):
     email    = serializers.EmailField()
     password = serializers.CharField(max_length=128, write_only=True)
-    username = serializers.CharField(max_length=255, read_only=True)
+    # username = serializers.CharField(max_length=255, read_only=True)
     token    = serializers.CharField(max_length=255, read_only=True)
     id       = serializers.IntegerField(read_only=True)
     type     = serializers.CharField(read_only=True)
@@ -25,22 +25,17 @@ class LoginSerializer(serializers.Serializer):
                 'A password is required to log in.'
             )
 
-        user = authenticate(username=email, password=password)
+        user = authenticate(email=email, password=password)
 
         if user is None:
             raise serializers.ValidationError(
                 'A user with this email and password was not found.'
             )
 
-        if not user.is_active:
-            raise serializers.ValidationError(
-                'This user has been deactivated.'
-            )
-
         return {
             'token': user.token,
             'email': user.email,
-            'username': user.username,
+            # 'username': user.username,
             'id': user.id,
             'type': user.type
         }

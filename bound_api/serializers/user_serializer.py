@@ -5,14 +5,34 @@ from bound_api.models import User
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['email', 'username', 'password']
-        extra_kwargs = {'password': {'write_only': True}}
+        fields = [
+            'id',
+            'email',
+            'username',
+            'password',
+            'first_name',
+            'last_name',
+            'phone',
+            'zipcode',
+            'date_of_birth',
+            'type',
+            # 'username'
+        ]
+        extra_kwargs = {
+            'password': {'write_only': True}
+        }
 
     def create(self, validated_data):
         user = User(
             email=validated_data['email'],
-            username=validated_data['username']
+            # username=validated_data['username']
         )
         user.set_password(validated_data['password'])
         user.save()
         return user
+
+    def update(self, instance, validated_data):
+        for (key, value) in validated_data.items():
+            setattr(instance, key, value)
+        instance.save()
+        return instance
