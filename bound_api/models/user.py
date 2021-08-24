@@ -12,7 +12,7 @@ from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseU
 class UserManager(BaseUserManager):
     def _create_user(self, email, password=None, **extra_fields):
         if not email:
-            raise ValueError('Данный адрес электронной почты должен быть установлен')
+            raise ValueError('User must have email.')
 
         email = self.normalize_email(email)
         user = self.model(email=email, **extra_fields)
@@ -32,10 +32,10 @@ class UserManager(BaseUserManager):
         extra_fields.setdefault('is_superuser', True)
 
         if extra_fields.get('is_staff') is not True:
-            raise ValueError('Суперпользователь должен иметь is_staff=True.')
+            raise ValueError('Superuser must have is_staff=True.')
 
         if extra_fields.get('is_superuser') is not True:
-            raise ValueError('Суперпользователь должен иметь is_superuser=True.')
+            raise ValueError('Superuser must have is_superuser=True.')
 
         return self._create_user(email, password, **extra_fields)
 
@@ -56,7 +56,6 @@ class User(AbstractBaseUser, PermissionsMixin):
     zipcode       = models.CharField(max_length=255, blank=True)
     date_of_birth = models.DateField(blank=True, null=True)
     type          = models.CharField(max_length=255, choices=USER_TYPE, default=CUSTOMER)
-    # username      = models.CharField(max_length=255, blank=True, unique=True)
 
     is_staff      = models.BooleanField(default=False)
     is_active     = models.BooleanField(default=True)

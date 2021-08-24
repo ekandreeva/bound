@@ -9,7 +9,7 @@ class VehicleSerializer(serializers.ModelSerializer):
         model = Vehicle
         fields = [
             'make',
-            'model',
+            'model_car',
             'year',
             'type',
             'color',
