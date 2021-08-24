@@ -7,6 +7,8 @@ from django.conf import settings
 from django.db import models
 from django.core import validators
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
+from django.contrib.contenttypes.fields import GenericRelation
+from .address import Address
 
 
 class UserManager(BaseUserManager):
@@ -56,6 +58,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     zipcode       = models.CharField(max_length=255, blank=True)
     date_of_birth = models.DateField(blank=True, null=True)
     type          = models.CharField(max_length=255, choices=USER_TYPE, default=CUSTOMER)
+    address       = GenericRelation(Address, related_query_name='user_address')
+
 
     is_staff      = models.BooleanField(default=False)
     is_active     = models.BooleanField(default=True)

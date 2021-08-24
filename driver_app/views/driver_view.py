@@ -41,9 +41,9 @@ class DriverViewSet(viewsets.ModelViewSet):
         serializer = OrderSerializer(orders, many=True)
         return Response( serializer.data, status=status.HTTP_200_OK )
 
-    @action(detail=False, methods=['put'])
-    def accept_order(self, request, order_id):
-        driver = request.user.driver
-
-        serializer = OrderSerializer(orders, many=True)
-        return Response( serializer.data, status=status.HTTP_200_OK )
+    # @action(detail=False, methods=['put'])
+    # def accept_order(self, request, order_id):
+    #     driver = request.user.driver
+    #     driver.
+    #     serializer = OrderSerializer(orders, many=True)
+    #     return Response( serializer.data, status=status.HTTP_200_OK )
