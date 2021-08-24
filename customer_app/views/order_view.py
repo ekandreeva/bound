@@ -38,10 +38,11 @@ class OrderViewSet(viewsets.ModelViewSet):
 
     def create(self, request):
         data = request.data
-        data['user'] = request.user.id
+        # data['user'] = request.user
         serializer = OrderSerializer(data=data)
         if serializer.is_valid():
             serializer.save()
+            user.orders.add(serializer)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 

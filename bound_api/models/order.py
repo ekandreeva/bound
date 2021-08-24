@@ -19,7 +19,7 @@ class Order(models.Model):
     contact_phone    = models.CharField(max_length=255, blank=True, null=True)
     note             = models.TextField(blank=True, null=True)
     type             = models.CharField(max_length=255, blank=True, null=True)
-    user             = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
+    user             = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True, related_name='orders')
     # from_address     = models.ForeignKey(Address, on_delete=models.CASCADE, blank=True, null=True, related_name='from_address_order')
     # to_address       = models.ForeignKey(Address, on_delete=models.CASCADE, blank=True, null=True, related_name='to_address_order')
     from_whom        = models.ForeignKey(OrdersUsers, on_delete=models.CASCADE, blank=True, null=True, related_name='from_whom_order')
@@ -30,3 +30,6 @@ class Order(models.Model):
 
     def __str__(self):
         return str(self.id)
+
+    def driver(self):
+        return self.drivers.orders_drivers.filter(accepted=True)

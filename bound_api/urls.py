@@ -23,6 +23,7 @@ urlpatterns = [
     # path('', include(router.urls)),
     re_path(r'^sign_up/?$', views.RegistrationAPIView.as_view(), name='user_sign_up'),
     re_path(r'^login/?$', views.LoginAPIView.as_view(), name='user_login'),
+    # path('password_reset/', include('django_rest_passwordreset.urls', namespace='password_reset')),
     path('bounders/', views.BounderList.as_view()),
     path('bounders/<int:bounder_id>/', views.BounderDetail.as_view()),
     path('applicants/', views.ApplicantList.as_view()),

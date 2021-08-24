@@ -8,5 +8,5 @@ class AddressSerializer(serializers.ModelSerializer):
         fields = (
             'id',
             'address',
-            'coords	'
+            'coords'
         )

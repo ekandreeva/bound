@@ -17,6 +17,7 @@ from django.contrib import admin
 from django.urls import path, re_path, include
 
 urlpatterns = [
+    path('bound_api/password_reset/', include('django_rest_passwordreset.urls', namespace='password_reset')),
     path('admin/', admin.site.urls),
     path('bound_api/', include('bound_api.urls', namespace='api')),
     path('customer_app/', include('customer_app.urls', namespace='customer_app')),

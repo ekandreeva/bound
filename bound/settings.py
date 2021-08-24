@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'driver_app.apps.DriverAppConfig',
     'rest_framework',
     'rest_framework.authtoken',
+    'django_rest_passwordreset',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -133,3 +134,5 @@ USE_TZ = False
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
