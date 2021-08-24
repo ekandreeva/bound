@@ -19,7 +19,7 @@ class OrderViewSet(viewsets.ModelViewSet):
 
     @action(detail=True, methods=['put'], url_path='charge_order')
     def charge_order(self, request, pk):
-        order = Order.objects.first()
+        order = Order.objects.get(pk=pk)
         serializer = OrderSerializer(order)
         return Response(serializer.data)
 

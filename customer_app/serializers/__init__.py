@@ -1,2 +1,3 @@
 from .registration_serializer import RegistrationSerializer
 from .login_serializer import LoginSerializer
+from .customer_serializer import CustomerSerializer

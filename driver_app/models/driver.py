@@ -10,7 +10,7 @@ class Driver(models.Model):
     ]
 
     status = models.CharField(max_length=255, choices=DRIVER_STATUS, default='DC')
-    user   = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True,)
+    user   = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True, related_name='driver')
     orders = models.ManyToManyField(Order, through='OrdersDrivers', related_name='drivers')
     photo  = GenericRelation(Photo, related_query_name='driver_photo')
 

@@ -17,5 +17,5 @@ urlpatterns = [
     path('update_profile/', driver_update_profile, name='driver-update-profile'),
     path('add_vechicle/', driver_add_vechicle, name='driver-add-vechicle'),
     path('orders/', driver_orders, name='driver-orders'),
-    path('accept_order/<int:order_id>', driver_accept_order, name='driver-accept-order'),
+    path('accept_order/<int:order_id>/', driver_accept_order, name='driver-accept-order'),
 ]
