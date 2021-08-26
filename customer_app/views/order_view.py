@@ -8,7 +8,7 @@ from rest_framework.decorators import action
 
 from bound_api.models import User
 from bound_api.models import Order
-from bound_api.serializers import OrderSerializer
+from bound_api.serializers import OrderSerializer, UserSerializer
 
 
 class OrderViewSet(viewsets.ModelViewSet):
@@ -19,30 +19,29 @@ class OrderViewSet(viewsets.ModelViewSet):
 
     @action(detail=True, methods=['put'], url_path='charge_order')
     def charge_order(self, request, pk):
-        order = Order.objects.get(pk=pk)
+        order = self.get_object(request, pk)
         serializer = OrderSerializer(order)
         return Response(serializer.data)
 
-
     def get_object(self, request, pk):
         try:
-            return request.user.order_set.get(pk=pk)
+            return request.user.orders.get(pk=pk)
         except Order.DoesNotExist:
             raise Http404
 
     def list(self, request):
         user = request.user
-        orders = user.order_set.all()
+        orders = user.orders.all()
         serializer = OrderSerializer(orders, many=True)
         return Response( serializer.data, status=status.HTTP_200_OK )
 
     def create(self, request):
         data = request.data
-        # data['user'] = request.user
+        user = request.user
         serializer = OrderSerializer(data=data)
         if serializer.is_valid():
-            serializer.save()
-            user.orders.add(serializer)
+            order = serializer.save()
+            user.orders.add(order)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -53,7 +52,7 @@ class OrderViewSet(viewsets.ModelViewSet):
 
     def update(self, request, pk=None):
         order = self.get_object(request, pk)
-        serializer = OrderSerializer(order, data=request.data)
+        serializer = OrderSerializer(order, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)

@@ -4,6 +4,7 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework import viewsets
 from rest_framework.decorators import action
+from datetime import datetime
 
 from bound_api.serializers import UserSerializer, OrderSerializer
 from driver_app.serializers import DriverSerializer, VehicleSerializer
@@ -13,11 +14,11 @@ class DriverViewSet(viewsets.ModelViewSet):
 
     permission_classes = [AllowAny]
 
-    @action(detail=False, methods=['put'])
+    @action(detail=False, methods=['patch'])
     def update_profile(self, request):
         user = request.user
         data = request.data
-        serializer = UserSerializer(user, data=data)
+        serializer = UserSerializer(user, data=data, partial=True)
         if serializer.is_valid():
             serializer.update(user, data)
             return Response(serializer.data)
@@ -44,8 +45,52 @@ class DriverViewSet(viewsets.ModelViewSet):
     @action(detail=False, methods=['put'])
     def accept_order(self, request, order_id):
         driver = request.user.driver
-        od = driver.orders_drivers.get(order=order_id)
-        od.update(accepted=True)
+
+        order_driver = driver.orders_drivers.get(order=order_id)
+        order_driver.accepted=True
+        order_driver.save()
+
+        order = order_driver.order
+        order.accepted_at = datetime.now()
+        order.status = 'Accepted'
+        order.save()
+
+        content = {
+            "success": True
+        }
+        return Response( content, status=status.HTTP_200_OK )
+
+    @action(detail=False, methods=['put'])
+    def drop_order(self, request, order_id):
+        driver = request.user.driver
+
+        order_driver = driver.orders_drivers.get(order=order_id)
+        order_driver.accepted=False
+        order_driver.save()
+
+        order = order_driver.order
+        order.droped_at = datetime.now()
+        order.status = 'Dropped'
+        order.save()
+
+        content = {
+            "success": True
+        }
+        return Response( content, status=status.HTTP_200_OK )
+
+    @action(detail=False, methods=['put'])
+    def pick_order(self, request, order_id):
+        driver = request.user.driver
+
+        order_driver = driver.orders_drivers.get(order=order_id)
+        order_driver.accepted=False
+        order_driver.save()
+
+        order = order_driver.order
+        order.picked_at = datetime.now()
+        order.status = 'Picked'
+        order.save()
+
         content = {
             "success": True
         }

@@ -20,12 +20,10 @@ class Order(models.Model):
     note             = models.TextField(blank=True, null=True)
     type             = models.CharField(max_length=255, blank=True, null=True)
     user             = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True, related_name='orders')
-    # from_address     = models.ForeignKey(Address, on_delete=models.CASCADE, blank=True, null=True, related_name='from_address_order')
-    # to_address       = models.ForeignKey(Address, on_delete=models.CASCADE, blank=True, null=True, related_name='to_address_order')
     from_whom        = models.ForeignKey(OrdersUsers, on_delete=models.CASCADE, blank=True, null=True, related_name='from_whom_order')
     for_whom         = models.ForeignKey(OrdersUsers, on_delete=models.CASCADE, blank=True, null=True, related_name='for_whom_order')
-    from_address     = GenericRelation(Address, related_query_name='from_address_order')
-    to_address       = GenericRelation(Address, related_query_name='to_address_order')
+    from_address     = GenericRelation(Address)
+    to_address       = GenericRelation(Address)
 
 
     def __str__(self):
