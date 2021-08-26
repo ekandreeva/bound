@@ -22,4 +22,5 @@ urlpatterns = [
     path('bound_api/', include('bound_api.urls', namespace='api')),
     path('customer_app/', include('customer_app.urls', namespace='customer_app')),
     path('driver_app/', include('driver_app.urls', namespace='driver_app')),
+    path("stripe/", include("djstripe.urls", namespace="djstripe")),
 ]

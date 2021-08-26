@@ -1,14 +1,14 @@
 from django.http import Http404
 from rest_framework import status
 from rest_framework.response import Response
-from bound.permission import CustomerOnly
-
 from rest_framework import viewsets
 from rest_framework.decorators import action
-
+from bound.permission import CustomerOnly
 from bound_api.models import User
 from bound_api.models import Order
-from bound_api.serializers import OrderSerializer, UserSerializer
+from bound_api.serializers import OrderSerializer, UserSerializer, PaymentMethodSerializer, PaymentSerializer
+import stripe
+stripe.api_key = 'sk_test_51JScrnBVO6fSdtX9k02OjcY01KcYTiO6VeJVYzldHnnR3bWKGsyIDGWtQV6OgsIJ2cwj2M63VrBD7e4HpkAQmxb600R2UGRoH2'
 
 
 class OrderViewSet(viewsets.ModelViewSet):
@@ -18,9 +18,49 @@ class OrderViewSet(viewsets.ModelViewSet):
 
     @action(detail=True, methods=['put'], url_path='charge_order')
     def charge_order(self, request, pk):
+        user = request.user
+
+        stripe_user = stripe.Customer.create(
+            email=user.email
+        )
+
+        user.customer.stripe_id = stripe_user.id
+        user.customer.save()
+
+        card = stripe.Customer.create_source(
+          user.customer.stripe_id,
+          source="tok_mastercard",
+        )
+        pm_info = {
+            'user': user.id,
+            'stripe_id': card.id,
+            'last_4': request.data['last_4'],
+            'exp_date': request.data['exp_date']
+        }
+
+        pm = PaymentMethodSerializer(data=pm_info)
+        if pm.is_valid():
+            pm.save()
+
+        stripe_payment = stripe.Charge.create(
+          amount=request.data['amount'],
+          currency="usd",
+          source='tok_mastercard'
+        )
         order = self.get_object(request, pk)
-        serializer = OrderSerializer(order)
-        return Response(serializer.data)
+
+        payment_info = {
+            'order': order.id,
+            'payment_method': pm.data,
+            'stripe_charge_id': stripe_payment.id,
+            'amount': request.data['amount'],
+        }
+
+        payment = PaymentSerializer(data=payment_info)
+        if payment.is_valid():
+            payment.save()
+
+        return Response(payment.data)
 
     def get_object(self, request, pk):
         try:

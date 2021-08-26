@@ -1,11 +1,10 @@
 from django.http import Http404
 from rest_framework import status
 from rest_framework.response import Response
-from bound.permission import DriverOnly
 from rest_framework import viewsets
 from rest_framework.decorators import action
 from datetime import datetime
-
+from bound.permission import DriverOnly
 from bound_api.serializers import UserSerializer, OrderSerializer
 from driver_app.serializers import DriverSerializer, VehicleSerializer
 

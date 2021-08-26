@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    "djstripe",
 ]
 
 MIDDLEWARE = [
@@ -136,3 +137,13 @@ USE_TZ = False
 STATIC_URL = '/static/'
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+STRIPE_PUBLISHABLE_KEY="pk_test_51JScrnBVO6fSdtX9SXc7Tg93aD0rVxSEjmGlnmY0gCoZYkWBpAwOZo4I54EblMnS7la6r0cn8SEEP2CxhlrkwYr400SbaFhLaR"
+STRIPE_TEST_SECRET_KEY="sk_test_51JScrnBVO6fSdtX9k02OjcY01KcYTiO6VeJVYzldHnnR3bWKGsyIDGWtQV6OgsIJ2cwj2M63VrBD7e4HpkAQmxb600R2UGRoH2"
+
+# STRIPE_LIVE_SECRET_KEY = os.environ.get("STRIPE_LIVE_SECRET_KEY", "<live secret key>")
+# STRIPE_TEST_SECRET_KEY = os.environ.get("STRIPE_TEST_SECRET_KEY", "<test secret key>")
+STRIPE_LIVE_MODE = False  # Change to True in production
+DJSTRIPE_WEBHOOK_SECRET = "whsec_xxx"  # Get it from the section in the Stripe dashboard where you added the webhook endpoint
+DJSTRIPE_USE_NATIVE_JSONFIELD = True  # We recommend setting to True for new installations
+DJSTRIPE_FOREIGN_KEY_TO_FIELD = "id"
