@@ -5,3 +5,4 @@ from .login_serializer import LoginSerializer
 from .address_serializer import AddressSerializer
 from .payment_method_serializer import PaymentMethodSerializer
 from .payment_serializer import PaymentSerializer
+from .photo_serializer import PhotoSerializer

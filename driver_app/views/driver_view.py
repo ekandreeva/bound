@@ -5,8 +5,10 @@ from rest_framework import viewsets
 from rest_framework.decorators import action
 from datetime import datetime
 from bound.permission import DriverOnly
-from bound_api.serializers import UserSerializer, OrderSerializer
+from bound_api.serializers import UserSerializer, OrderSerializer, PhotoSerializer
+from bound_api.models import Photo
 from driver_app.serializers import DriverSerializer, VehicleSerializer
+from driver_app.models import Driver
 
 
 class DriverViewSet(viewsets.ModelViewSet):
@@ -21,6 +23,13 @@ class DriverViewSet(viewsets.ModelViewSet):
             serializer.update(user, data)
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    @action(detail=False, methods=['put'])
+    def add_photo(self, request):
+        driver = request.user.driver
+        photo = Photo(url=request.data['url'], type=request.data['type'], content_object=Driver.objects.last())
+        serializer = DriverSerializer(driver)
+        return Response( serializer.data, status=status.HTTP_200_OK )
 
     @action(detail=False, methods=['put'])
     def add_vechicle(self, request):

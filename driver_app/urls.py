@@ -15,4 +15,5 @@ urlpatterns = [
     path('accept_order/<int:order_id>/', DriverViewSet.as_view({'put': 'accept_order'}), name='driver-accept-order'),
     path('drop_order/<int:order_id>/', DriverViewSet.as_view({'put': 'drop_order'}), name='driver-drop-order'),
     path('pick_order/<int:order_id>/', DriverViewSet.as_view({'put': 'pick_order'}), name='driver-pick-order'),
+    path('add_photo/', DriverViewSet.as_view({'put': 'add_photo'}), name='driver-add-photo'),
 ]
