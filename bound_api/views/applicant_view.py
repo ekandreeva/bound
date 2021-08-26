@@ -1,5 +1,5 @@
 from rest_framework import status, viewsets
-from rest_framework.permissions import AllowAny
+from bound.permission import AdminOnly
 from rest_framework.response import Response
 from rest_framework import generics
 from rest_framework.decorators import action
@@ -11,7 +11,7 @@ from driver_app.serializers import DriverSerializer
 
 
 class ApplicantList(generics.ListAPIView):
-    permission_classes = [AllowAny]
+    permission_classes = [AdminOnly]
 
     def get(self, request, format=None):
         applicants = Driver.objects.all()
@@ -20,6 +20,7 @@ class ApplicantList(generics.ListAPIView):
 
 
 class ApplicantViewSet(viewsets.ModelViewSet):
+    permission_classes = [AdminOnly]
 
     @action(detail=True, methods=['put'])
     def accept_applicant(self, request, applicant_id):

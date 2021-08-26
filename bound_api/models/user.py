@@ -114,3 +114,12 @@ class User(AbstractBaseUser, PermissionsMixin):
 
         # return token.decode('utf-8')
         return token
+
+    def is_admin(self):
+        return self.type == 'AD'
+
+    def is_driver(self):
+        return self.type == 'DR'
+
+    def is_customer(self):
+        return self.type == 'CU'

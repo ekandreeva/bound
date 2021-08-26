@@ -1,7 +1,7 @@
 from django.http import Http404
 from rest_framework import status
 from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated, AllowAny
+from bound.permission import CustomerOnly
 
 from rest_framework import viewsets
 from rest_framework.decorators import action
@@ -14,8 +14,7 @@ from bound_api.serializers import OrderSerializer, UserSerializer
 class OrderViewSet(viewsets.ModelViewSet):
     queryset = Order.objects.all()
     serializer_class = OrderSerializer
-    permission_classes = [IsAuthenticated]
-
+    permission_classes = [CustomerOnly]
 
     @action(detail=True, methods=['put'], url_path='charge_order')
     def charge_order(self, request, pk):

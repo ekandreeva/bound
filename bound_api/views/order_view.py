@@ -1,5 +1,5 @@
 from rest_framework import status
-from rest_framework.permissions import AllowAny
+from bound.permission import AdminOnly
 from rest_framework.response import Response
 from rest_framework import generics
 
@@ -8,7 +8,7 @@ from bound_api.serializers import OrderSerializer
 
 
 class OrderList(generics.ListAPIView):
-    permission_classes = [AllowAny]
+    permission_classes = [AdminOnly]
 
     def get(self, request, format=None):
         orders = Order.objects.all()
@@ -17,6 +17,8 @@ class OrderList(generics.ListAPIView):
 
 
 class OrderDetail(generics.RetrieveAPIView):
+    permission_classes = [AdminOnly]
+
     def get(self, request, order_id, format=None):
         order = Order.objects.get(pk=order_id)
         try:

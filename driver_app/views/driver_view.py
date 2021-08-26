@@ -1,7 +1,7 @@
 from django.http import Http404
 from rest_framework import status
 from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated, AllowAny
+from bound.permission import DriverOnly
 from rest_framework import viewsets
 from rest_framework.decorators import action
 from datetime import datetime
@@ -11,8 +11,7 @@ from driver_app.serializers import DriverSerializer, VehicleSerializer
 
 
 class DriverViewSet(viewsets.ModelViewSet):
-
-    permission_classes = [AllowAny]
+    permission_classes = [DriverOnly]
 
     @action(detail=False, methods=['patch'])
     def update_profile(self, request):

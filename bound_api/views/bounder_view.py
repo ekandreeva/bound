@@ -1,5 +1,5 @@
 from rest_framework import status
-from rest_framework.permissions import AllowAny
+from bound.permission import AdminOnly
 from rest_framework.response import Response
 from rest_framework import generics
 
@@ -9,7 +9,7 @@ from customer_app.serializers import CustomerSerializer
 
 
 class BounderList(generics.ListAPIView):
-    permission_classes = [AllowAny]
+    permission_classes = [AdminOnly]
 
     def get(self, request, format=None):
         bounders = Customer.objects.all()
@@ -18,6 +18,8 @@ class BounderList(generics.ListAPIView):
 
 
 class BounderDetail(generics.RetrieveAPIView):
+    permission_classes = [AdminOnly]
+
     def get(self, request, bounder_id, format=None):
         user = User.objects.get(pk=bounder_id)
         if user.type == 'CU':
